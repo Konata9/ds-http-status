@@ -1,0 +1,92 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusPicture from '../components/StatusPicture.astro';
+import { getStatus } from '../data/statuses';
+import { withBase } from '../data/site';
+import { notFoundCopy } from '../i18n/ui';
+import { statusUrls } from '../lib/statusUrls';
+
+const status = getStatus(404);
+const t = notFoundCopy;
+---
+
+<BaseLayout
+  locale="en"
+  title={t.title}
+  description={t.description}
+  path="/"
+  canonicalPath="/404.html"
+  noAlternates
+  noindex
+  image={{
+    url: statusUrls(404).image.url,
+    alt: status.imageAlt.en,
+    width: 1254,
+    height: 1254,
+  }}
+>
+  <article class="not-found container">
+    <div class="nf-image">
+      <StatusPicture
+        status={status}
+        locale="en"
+        widths={[320, 480, 640]}
+        sizes="(min-width: 900px) 36vw, 100vw"
+        loading="eager"
+      />
+    </div>
+
+    <div class="nf-copy">
+      <h1>{t.h1}</h1>
+      <p class="lede">{t.p}</p>
+      <p class="nf-link"><a href={withBase('/')}>{t.enLink}</a></p>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(32px, 6vw, 80px);
+    align-items: center;
+    padding-top: clamp(48px, 8vw, 96px);
+    padding-bottom: clamp(48px, 8vw, 96px);
+  }
+
+  .nf-image {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .nf-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    filter: brightness(1.04);
+  }
+
+  .nf-copy h1 {
+    max-width: 12ch;
+  }
+
+  .nf-copy .lede {
+    margin-top: 20px;
+  }
+
+  .nf-link {
+    margin-top: 20px;
+    font-size: var(--text-sm);
+  }
+
+  @media (max-width: 900px) {
+    .not-found {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .nf-image {
+      max-width: 360px;
+    }
+  }
+</style>

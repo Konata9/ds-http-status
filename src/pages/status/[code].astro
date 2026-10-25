@@ -1,0 +1,12 @@
+---
+import StatusPage from '../../components/StatusPage.astro';
+import { statusStaticPaths } from '../../lib/statusRoutes';
+
+export function getStaticPaths() {
+  return statusStaticPaths();
+}
+
+const { status } = Astro.props;
+---
+
+<StatusPage locale="en" status={status} />

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="DS/HTTP">
+  <rect width="64" height="64" fill="#1d1a16"/>
+  <text x="32" y="42" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="26" letter-spacing="-1" fill="#f8f3e7">DS</text>
+  <rect x="14" y="49" width="36" height="2" fill="#3a56a0"/>
+</svg>

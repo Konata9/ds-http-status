@@ -1,0 +1,228 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumb from '../components/Breadcrumb.astro';
+import GitHubIcon from '../components/GitHubIcon.astro';
+import { referenceLinks } from '../data/references';
+import type { Locale } from '../data/statuses';
+import { aboutPath, homePath, site, withBase } from '../data/site';
+import { ui } from '../i18n/ui';
+import { aboutJsonLd } from '../lib/seo';
+import { statusUrls } from '../lib/statusUrls';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const path = aboutPath(locale);
+const imageUrl = statusUrls(200).image.url;
+---
+
+<BaseLayout
+  locale={locale}
+  title={t.about.title}
+  description={t.about.description}
+  path={path}
+  image={{
+    url: imageUrl,
+    alt: locale === 'zh'
+      ? 'DeepSeek 娘开心地捧着一碗米饭，代表 200 OK'
+      : 'DeepSeek-chan happily eating a bowl of rice, an illustration of 200 OK',
+    width: 1254,
+    height: 1254,
+  }}
+  jsonLd={aboutJsonLd(locale)}
+>
+  <article class="about container">
+    <Breadcrumb
+      items={[
+        { name: t.nav.index, href: withBase(homePath(locale)) },
+        { name: t.nav.about },
+      ]}
+    />
+
+    <header class="about-head">
+      <h1>{t.about.h1}</h1>
+      <p class="lede">{t.about.lede}</p>
+    </header>
+
+    <section class="credits" aria-labelledby="credits-title">
+      <h2 id="credits-title" class="credits-title">{t.about.creditsH}</h2>
+      <div class="credits-grid">
+        <div class="credits-left">
+          <p class="credit-name">{site.illustrator.name}</p>
+          <p class="credit-link">
+            <a href={site.illustrator.url} rel="noopener">{t.about.creditsLinkLabel}</a>
+          </p>
+        </div>
+        <div class="credits-right">
+          <p class="thanks">{t.about.creditsThanks}</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="about-grid">
+      <section>
+        <h2>{t.about.whatH}</h2>
+        <p>{t.about.whatP1}</p>
+        <p>{t.about.whatP2}</p>
+      </section>
+
+      <section>
+        <h2>{t.about.sourcesH}</h2>
+        <p>{t.about.sourcesP}</p>
+        <ul class="source-list">
+          {Object.values(referenceLinks).map((reference) => (
+            <li><a href={reference.url} rel="noopener">{reference.label}</a></li>
+          ))}
+        </ul>
+      </section>
+
+      <section>
+        <h2>{t.about.privacyH}</h2>
+        <p>{t.about.privacyP}</p>
+      </section>
+
+      <section>
+        <h2>{t.about.madeH}</h2>
+        <p>
+          {t.about.madeBefore}<a href={site.author.url} rel="noopener">{site.author.name}</a>{t.about.madeAfter}
+        </p>
+        <p>
+          <a class="repo-link" href={site.author.repo} rel="noopener">
+            <GitHubIcon size={16} />
+            {t.about.repoLink}
+          </a>
+        </p>
+      </section>
+    </div>
+
+    <p class="edition">{t.footer.edition}</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .about {
+    padding-top: clamp(28px, 4vw, 48px);
+  }
+
+  .about-head {
+    margin-top: clamp(24px, 4vw, 40px);
+    padding-bottom: clamp(32px, 5vw, 56px);
+  }
+
+  .about-head .lede {
+    margin-top: 18px;
+  }
+
+  .credits {
+    padding-block: clamp(28px, 4vw, 44px);
+    border-top: var(--rule-strong) solid var(--color-rule-2);
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .credits-title {
+    margin-bottom: clamp(20px, 3vw, 30px);
+    font-size: clamp(1.4rem, 2vw, 1.75rem);
+  }
+
+  .credits-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(24px, 5vw, 64px);
+  }
+
+  .credit-name {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .credit-link {
+    margin-top: 12px;
+    font-size: var(--text-sm);
+  }
+
+  .credits-right {
+    max-width: 56ch;
+  }
+
+  .credits-right p {
+    color: var(--color-ink-2);
+  }
+
+  .credits-right .thanks {
+    margin-top: 0;
+    color: var(--color-ink);
+    font-size: var(--text-lede);
+    line-height: 1.5;
+  }
+
+  :global(body[data-locale='zh']) .credits-right .thanks {
+    line-height: 1.75;
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(32px, 5vw, 64px);
+    padding-top: clamp(40px, 6vw, 72px);
+  }
+
+  .about-grid section {
+    max-width: 56ch;
+  }
+
+  .about-grid h2 {
+    margin-bottom: 14px;
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+  }
+
+  .about-grid p + p {
+    margin-top: 1em;
+  }
+
+  .repo-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .repo-link svg {
+    flex: 0 0 auto;
+  }
+
+  .source-list {
+    margin-top: 14px;
+    padding-left: 1.2em;
+  }
+
+  .source-list li + li {
+    margin-top: 0.35em;
+  }
+
+  .source-list li::marker {
+    color: var(--color-accent);
+  }
+
+  .edition {
+    margin-top: clamp(48px, 6vw, 72px);
+    padding-top: 14px;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 900px) {
+    .credits-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 24px;
+    }
+
+    .about-grid {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

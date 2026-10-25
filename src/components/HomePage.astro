@@ -1,0 +1,234 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StatusGrid from '../components/StatusGrid.astro';
+import FamilyBlocks from '../components/FamilyBlocks.astro';
+import type { Locale } from '../data/statuses';
+import { canonicalUrl, homePath } from '../data/site';
+import { ui } from '../i18n/ui';
+import { homeJsonLd, websiteJsonLd } from '../lib/seo';
+import { statusUrls } from '../lib/statusUrls';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const path = homePath(locale);
+const imageUrl = statusUrls(418).image.url;
+const exampleUrl = statusUrls(200).image.url;
+const codeToken = '{code}';
+---
+
+<BaseLayout
+  locale={locale}
+  title={t.home.title}
+  description={t.home.description}
+  path={path}
+  image={{
+    url: imageUrl,
+    alt: locale === 'zh'
+      ? 'DeepSeek 娘从一只蓝白茶壶里探出头来，代表 418 I’m a teapot'
+      : 'DeepSeek-chan peeking out of a teapot, an illustration of 418 I’m a teapot',
+    width: 1254,
+    height: 1254,
+  }}
+  jsonLd={[websiteJsonLd(locale), homeJsonLd(locale)]}
+>
+  <section class="opening container">
+    <div class="opening-text">
+      <h1>
+        <span class="h1-wide">
+          {t.home.h1Lines.map((line, index) => (
+            <>{index > 0 && <br />}{line}</>
+          ))}
+        </span>
+        <span class="h1-narrow">
+          {t.home.h1LinesNarrow.map((line, index) => (
+            <>{index > 0 && <br />}{line}</>
+          ))}
+        </span>
+      </h1>
+      <p class="lede">{t.home.lede}</p>
+    </div>
+
+    <aside class="use-code" aria-labelledby="use-code-title">
+      <p class="use-title" id="use-code-title">{t.home.use.title}</p>
+      <dl class="use-list">
+        <div>
+          <dt>{t.home.use.image}</dt>
+          <dd>
+            <code class="image-url">
+              <span>{canonicalUrl('/')}</span>
+              <span>{codeToken}.png</span>
+            </code>
+          </dd>
+        </div>
+        <div>
+          <dt>{t.home.use.example}</dt>
+          <dd class="use-example">
+            <a href={exampleUrl}>/200.png</a>
+          </dd>
+        </div>
+      </dl>
+    </aside>
+  </section>
+
+  <section class="section" id="plates">
+    <div class="container">
+      <div class="section-head">
+        <h2>{t.home.platesTitle}</h2>
+        <p>{t.home.platesNote}</p>
+      </div>
+      <StatusGrid locale={locale} />
+    </div>
+  </section>
+
+  <section class="section" id="families">
+    <div class="container">
+      <div class="section-head">
+        <h2>{t.home.familiesTitle}</h2>
+        <p>{t.home.familiesNote}</p>
+      </div>
+      <FamilyBlocks locale={locale} />
+    </div>
+  </section>
+
+</BaseLayout>
+
+<style>
+  .opening {
+    display: grid;
+    grid-template-columns: minmax(0, 8fr) minmax(0, 4fr);
+    column-gap: clamp(32px, 5vw, 72px);
+    align-items: start;
+    padding-top: clamp(40px, 5.5vw, 72px);
+    padding-bottom: clamp(24px, 3.5vw, 40px);
+  }
+
+  .opening-text {
+    min-width: 0;
+  }
+
+  .opening h1 {
+    max-width: 20ch;
+  }
+
+  .h1-narrow {
+    display: none;
+  }
+
+  .opening .lede {
+    margin-top: 20px;
+  }
+
+  :global(body[data-locale='zh']) .opening h1 {
+    font-size: clamp(3rem, 5.8vw, 5rem);
+  }
+
+  :global(body[data-locale='zh']) .opening .lede {
+    max-width: 34em;
+  }
+
+  .use-code {
+    background: var(--color-paper-2);
+    border-top: var(--rule-strong) solid var(--color-rule-2);
+    padding: 20px;
+    min-width: 0;
+  }
+
+  .use-title {
+    color: var(--color-ink);
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.25;
+  }
+
+  .use-list {
+    display: grid;
+    gap: 14px;
+    margin: 16px 0 0;
+  }
+
+  .use-list > div {
+    display: block;
+  }
+
+  .use-list dt {
+    color: var(--color-ink-2);
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 4px;
+  }
+
+  .use-list dd {
+    margin: 0;
+    color: var(--color-ink);
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.45;
+    overflow-wrap: anywhere;
+  }
+
+  .use-list dd a {
+    color: var(--color-accent);
+  }
+
+  .image-url,
+  .image-url span {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+
+  .use-example {
+    display: block;
+    overflow-wrap: anywhere;
+  }
+
+  .use-example a {
+    overflow-wrap: anywhere;
+  }
+
+  #plates {
+    padding-top: clamp(48px, 6vw, 80px);
+  }
+
+  #plates .section-head {
+    margin-bottom: clamp(24px, 3.5vw, 40px);
+  }
+
+  @media (max-width: 520px) {
+    .opening h1 {
+      font-size: clamp(2.25rem, 11vw, 3.75rem);
+    }
+
+    :global(body[data-locale='zh']) .opening h1 {
+      font-size: clamp(1.75rem, 8.8vw, 3rem);
+    }
+
+    .use-code {
+      padding: 12px;
+    }
+
+    .use-list dd {
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .opening {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+
+    .h1-wide {
+      display: none;
+    }
+
+    .h1-narrow {
+      display: inline;
+    }
+  }
+</style>

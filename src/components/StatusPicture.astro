@@ -1,0 +1,35 @@
+---
+import { Picture } from 'astro:assets';
+import type { Locale, Status } from '../data/statuses';
+
+interface Props {
+  status: Status;
+  locale: Locale;
+  widths: number[];
+  sizes: string;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+}
+
+const {
+  status,
+  locale,
+  widths,
+  sizes,
+  loading = 'lazy',
+  fetchpriority,
+} = Astro.props;
+---
+
+<Picture
+  src={status.image}
+  formats={['avif', 'webp']}
+  fallbackFormat="jpg"
+  quality={82}
+  widths={widths}
+  sizes={sizes}
+  alt={status.imageAlt[locale]}
+  loading={loading}
+  fetchpriority={fetchpriority}
+  decoding="async"
+/>

@@ -1,0 +1,37 @@
+---
+import { statuses, type Locale } from '../data/statuses';
+import StatusCard from './StatusCard.astro';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<div class="plate-grid">
+  {statuses.map((status) => (
+    <StatusCard locale={locale} status={status} />
+  ))}
+</div>
+
+<style>
+  .plate-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(40px, 5vw, 64px);
+  }
+
+  @media (max-width: 1199px) {
+    .plate-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 899px) {
+    .plate-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+</style>

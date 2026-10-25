@@ -1,0 +1,117 @@
+---
+import '../styles/global.css';
+import type { Locale } from '../data/statuses';
+import { alternatePath, canonicalUrl, site, withBase } from '../data/site';
+import { ui } from '../i18n/ui';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import GoogleAnalytics from '../components/GoogleAnalytics.astro';
+
+interface Props {
+  locale: Locale;
+  title: string;
+  description: string;
+  path: string;
+  canonicalPath?: string;
+  noAlternates?: boolean;
+  image: {
+    url: string;
+    alt: string;
+    width: number;
+    height: number;
+  };
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  jsonLd?: unknown | unknown[];
+}
+
+const {
+  locale,
+  title,
+  description,
+  path,
+  canonicalPath,
+  noAlternates = false,
+  image,
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const t = ui[locale];
+const canonical = canonicalUrl(canonicalPath ?? path);
+const enPath = locale === 'en' ? path : alternatePath(path, locale);
+const zhPath = locale === 'zh' ? path : alternatePath(path, locale);
+const enUrl = canonicalUrl(enPath);
+const zhUrl = canonicalUrl(zhPath);
+const imageUrl = new URL(image.url, `${canonicalUrl('/')}`).toString();
+const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f8f3e7" />
+    <meta name="color-scheme" content="light" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {!noAlternates && (
+      <>
+        <link rel="alternate" hreflang="en" href={enUrl} />
+        <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
+        <link rel="alternate" hreflang="x-default" href={enUrl} />
+      </>
+    )}
+    <link rel="alternate" type="application/json" href={canonicalUrl('/status.json')} />
+    <link rel="alternate" type="text/plain" href={canonicalUrl('/llms.txt')} />
+
+    <meta name="robots" content={noindex ? 'noindex, follow' : 'index, follow, max-image-preview:large'} />
+    <meta name="author" content={site.author.name} />
+    <meta name="generator" content={Astro.generator} />
+
+    {import.meta.env.PROD && <GoogleAnalytics />}
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name[locale]} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:locale:alternate" content={ui[locale === 'en' ? 'zh' : 'en'].ogLocale} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={image.alt} />
+    <meta property="og:image:width" content={String(image.width)} />
+    <meta property="og:image:height" content={String(image.height)} />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={image.alt} />
+
+    <link rel="icon" href={withBase('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={withBase('/apple-touch-icon.png')} />
+    <link rel="manifest" href={withBase('/manifest.webmanifest')} />
+
+    {jsonLdItems.map((item) => (
+      <script
+        type="application/ld+json"
+        is:inline
+        set:html={JSON.stringify(item).replace(/</g, '\\u003c')}
+      />
+    ))}
+  </head>
+  <body data-locale={locale}>
+    <a class="skip-link" href="#main">{t.skip}</a>
+    <SiteHeader locale={locale} path={path} />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter locale={locale} />
+  </body>
+</html>

@@ -1,0 +1,144 @@
+---
+import type { Locale, Status } from '../data/statuses';
+import { statusUrls } from '../lib/statusUrls';
+import StatusPicture from './StatusPicture.astro';
+
+interface Props {
+  locale: Locale;
+  status: Status;
+}
+
+const { locale, status } = Astro.props;
+const href = statusUrls(status.code).page[locale].href;
+const eager = status.code <= 404;
+---
+
+<figure class="plate">
+  <div class="plate-image">
+    <StatusPicture
+      status={status}
+      locale={locale}
+      widths={[320, 480, 720]}
+      sizes="(min-width: 1200px) 280px, (min-width: 900px) 30vw, (min-width: 600px) 45vw, 45vw"
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={status.code === 200 ? 'high' : undefined}
+    />
+  </div>
+
+  <figcaption class="plate-caption">
+    <h3 class="plate-title">
+      <a href={href}>
+        <span class="plate-code">{status.code}</span>
+        <span class="plate-reason">{status.reason}</span>
+      </a>
+    </h3>
+    {locale === 'zh' && <p class="plate-zh">{status.reasonZh}</p>}
+    <p class="plate-card">{status.card[locale]}</p>
+  </figcaption>
+</figure>
+
+<style>
+  .plate {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-width: 0;
+  }
+
+  .plate-image {
+    aspect-ratio: 1;
+    overflow: hidden;
+  }
+
+  .plate-image :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    mix-blend-mode: multiply;
+    filter: brightness(1.04);
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .plate:hover .plate-image :global(img) {
+    transform: scale(1.012);
+  }
+
+  .plate:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 4px;
+  }
+
+  .plate-caption {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+    padding-top: 14px;
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .plate-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+    max-width: none;
+    font-size: 1.75rem;
+    line-height: 1.05;
+  }
+
+  .plate-title a {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0 8px;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .plate-title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .plate-title a:focus-visible {
+    outline: none;
+  }
+
+  .plate-title a:hover .plate-reason {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: var(--rule-hair);
+    text-underline-offset: 0.16em;
+  }
+
+  .plate-code {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.2vw, 2rem);
+    line-height: 1;
+  }
+
+  .plate-reason {
+    font-family: var(--font-body);
+    font-size: clamp(1.0625rem, 1.4vw, 1.1875rem);
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  .plate-zh {
+    color: var(--color-ink-2);
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+
+  .plate-card {
+    max-width: 34ch;
+    color: var(--color-ink);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+
+</style>

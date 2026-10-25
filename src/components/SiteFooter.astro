@@ -1,0 +1,124 @@
+---
+import { referenceLinks } from '../data/references';
+import type { Locale } from '../data/statuses';
+import { aboutPath, homePath, withBase } from '../data/site';
+import { ui } from '../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = ui[locale];
+const about = withBase(aboutPath(locale));
+const llms = withBase('/llms.txt');
+const json = withBase('/status.json');
+const sitemap = withBase('/sitemap-index.xml');
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div class="footer-col">
+      <p class="footer-head">{t.footer.aboutH}</p>
+      <p class="footer-copy">{t.footer.aboutP}</p>
+      <p class="footer-copy">
+        <a href={about}>{t.footer.credit}</a>
+      </p>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-head">{t.footer.sourcesH}</p>
+      <ul class="footer-list">
+        {Object.values(referenceLinks).map((reference) => (
+          <li><a href={reference.url} rel="noopener">{reference.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <p class="footer-head">{t.footer.machineH}</p>
+      <ul class="footer-list">
+        <li><a href={llms}>{t.footer.llms}</a></li>
+        <li><a href={json}>{t.footer.json}</a></li>
+        <li><a href={sitemap}>{t.footer.sitemap}</a></li>
+        <li><a href={withBase(homePath(locale))}>{t.nav.index}</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p>{t.footer.unofficial}</p>
+    <p>{t.footer.edition}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--section-gap);
+    padding-top: clamp(32px, 5vw, 56px);
+    padding-bottom: 32px;
+    background: var(--color-paper-2);
+    border-top: var(--rule-hair) solid var(--color-rule);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 64px);
+  }
+
+  .footer-head {
+    margin-bottom: 12px;
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+  }
+
+  .footer-copy {
+    max-width: 34ch;
+    color: var(--color-ink-2);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .footer-copy + .footer-copy {
+    margin-top: 10px;
+  }
+
+  .footer-list {
+    list-style: none;
+    display: grid;
+    gap: 6px;
+    font-size: var(--text-sm);
+  }
+
+  .footer-list a {
+    color: var(--color-ink-2);
+    text-decoration: none;
+  }
+
+  .footer-list a:hover {
+    color: var(--color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: var(--rule-hair);
+    text-underline-offset: 0.18em;
+  }
+
+  .footer-bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px 24px;
+    margin-top: clamp(32px, 5vw, 56px);
+    padding-top: 16px;
+    border-top: var(--rule-hair) solid var(--color-rule);
+    color: var(--color-muted);
+    font-size: var(--text-xs);
+  }
+
+  @media (max-width: 720px) {
+    .footer-grid {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 28px;
+    }
+  }
+</style>

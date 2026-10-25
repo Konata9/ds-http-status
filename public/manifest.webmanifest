@@ -1,0 +1,22 @@
+{
+  "name": "DeepSeek-chan HTTP Field Guide",
+  "short_name": "DS/HTTP",
+  "description": "Ten HTTP status codes, illustrated by DeepSeek-chan and explained without jargon.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8f3e7",
+  "theme_color": "#f8f3e7",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

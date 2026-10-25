@@ -1,0 +1,16 @@
+---
+import { GA4_MEASUREMENT_ID } from '../data/analytics';
+---
+
+<script async src={`https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`} is:inline></script>
+<script is:inline define:vars={{ GA4_MEASUREMENT_ID }}>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag() {
+    window.dataLayer.push(arguments);
+  };
+  const localHosts = ['localhost', '127.0.0.1', '::1', '0.0.0.0'];
+  if (!localHosts.includes(location.hostname)) {
+    window.gtag('js', new Date());
+    window.gtag('config', GA4_MEASUREMENT_ID);
+  }
+</script>
