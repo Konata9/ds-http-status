@@ -1,7 +1,7 @@
 {
   "name": "DeepSeek-chan HTTP Field Guide",
   "short_name": "DS/HTTP",
-  "description": "Ten HTTP status codes, illustrated by DeepSeek-chan and explained without jargon.",
+  "description": "Nineteen HTTP status codes, illustrated by DeepSeek-chan and explained without jargon.",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f8f3e7",

@@ -69,7 +69,7 @@ export default defineConfig({
         image: true,
       },
       serialize(item) {
-        item.lastmod = '2026-10-25';
+        item.lastmod = '2026-10-26';
         const pathname = new URL(item.url).pathname;
         const match = pathname.match(/\/(\d{3})\/?$/);
         if (match) {

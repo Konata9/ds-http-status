@@ -11,24 +11,21 @@ const en = {
   home: {
     title: 'DeepSeek-chan HTTP Status Codes, Illustrated',
     description:
-      'Ten HTTP status codes, illustrated by DeepSeek-chan and explained without jargon. 200, 401, 403, 404, 408, 414, 418, 429, 500, and 503, with RFC references and practical fixes.',
+      'Nineteen HTTP status codes across all five classes, illustrated by DeepSeek-chan and explained without jargon. RFC references, common causes, and practical fixes.',
     h1: 'Every status code has a face.',
     h1Lines: ['Every status code', 'has a face.'],
     h1LinesNarrow: ['Every status', 'code has a face.'],
-    lede: 'Ten HTTP codes, illustrated by DeepSeek-chan and explained without jargon.',
+    lede: 'Nineteen HTTP codes, illustrated by DeepSeek-chan and explained without jargon.',
     platesTitle: 'The plates',
     platesNote:
       'Ordered by code. Open a plate for the meaning, the usual causes, and what to do.',
-    familiesTitle: 'Three families',
-    familiesNote: 'The first digit tells you who is responsible.',
+    familiesTitle: 'Five families',
+    familiesNote: 'The first digit tells you what kind of answer this is.',
     use: {
       title: 'Use the status image',
       image: 'Image',
       example: 'Example',
     },
-  },
-  families: {
-    outside: '1xx / 3xx: not in this edition.',
   },
   detail: {
     meaningH: 'What does it mean?',
@@ -57,12 +54,12 @@ const en = {
     description:
       'About the DeepSeek-chan HTTP Field Guide: credits, sources, privacy, and the illustrator Fatal1tyV.',
     h1: 'About this guide',
-    lede: 'Ten plates, two languages, and a very patient whale.',
+    lede: 'Nineteen plates, two languages, and a very patient whale.',
     whatH: 'What this is',
     whatP1:
-      'This is an unofficial fan project: an illustrated field guide to ten HTTP status codes. The definitions follow RFC 9110, RFC 6585, and RFC 2324, with links to the exact sections on every entry.',
+      'This is an unofficial fan project: an illustrated field guide to nineteen HTTP status codes. The definitions follow RFC 9110, RFC 6585, RFC 2324, and RFC 7725, with links to the exact sections on every entry.',
     whatP2:
-      "The guide covers only the ten codes illustrated here. It is a reference for readers and developers, not a replacement for the RFCs or your framework's documentation.",
+      "The guide covers only the nineteen codes illustrated here. It is a reference for readers and developers, not a replacement for the RFCs or your framework's documentation.",
     creditsH: 'Credits and thanks',
     creditsThanks:
       'Thank you, Fatal1tyV. These plates give every status code a face; without them this would be a table of numbers.',
@@ -81,12 +78,12 @@ const en = {
   footer: {
     aboutH: 'About',
     aboutP:
-      'An unofficial illustrated guide to ten HTTP status codes. Definitions checked against the RFCs.',
+      'An unofficial illustrated guide to nineteen HTTP status codes. Definitions checked against the RFCs.',
     sourcesH: 'Sources',
     machineH: 'Machine-readable',
     unofficial: 'Unofficial fan project. Not affiliated with DeepSeek.',
     credit: 'Illustrations credited in About.',
-    edition: 'Edition 1.0',
+    edition: 'Edition 1.1',
     llms: 'llms.txt',
     json: 'status.json',
     sitemap: 'Sitemap',
@@ -104,25 +101,22 @@ const zh: typeof en = {
     about: '关于',
   },
   home: {
-    title: 'DeepSeek 娘 HTTP 状态图鉴｜十个状态码，十张插画',
+    title: 'DeepSeek 娘 HTTP 状态图鉴｜十九个状态码，十九张插画',
     description:
-      '用 DeepSeek 娘插画读懂 10 个 HTTP 状态码：200、401、403、404、408、414、418、429、500、503。含中文释义、RFC 出处、常见场景与处理建议。',
+      '用 DeepSeek 娘插画读懂 19 个 HTTP 状态码，覆盖五个类别。含中文释义、RFC 出处、常见场景与处理建议。',
     h1: '每个 HTTP 状态码，都有表情。',
     h1Lines: ['每个 HTTP', '状态码，都有表情。'],
     h1LinesNarrow: ['每个 HTTP', '状态码，都有表情。'],
-    lede: '十个状态码，由 DeepSeek 娘出演，用人话解释清楚。',
+    lede: '十九个状态码，由 DeepSeek 娘出演，用人话解释清楚。',
     platesTitle: '图版',
     platesNote: '按状态码排列。点开一张图版，查看含义、常见场景和处理方法。',
-    familiesTitle: '三个家族',
-    familiesNote: '第一位数字告诉你问题出在哪一方。',
+    familiesTitle: '五个家族',
+    familiesNote: '第一位数字告诉你这是哪一类响应。',
     use: {
       title: '使用状态图片',
       image: '图片',
       example: '示例',
     },
-  },
-  families: {
-    outside: '1xx / 3xx：这一版没有。',
   },
   detail: {
     meaningH: '是什么意思？',
@@ -150,12 +144,12 @@ const zh: typeof en = {
     title: '关于｜DeepSeek 娘 HTTP 状态图鉴',
     description: '关于这本 DeepSeek 娘 HTTP 状态图鉴：插画署名、致谢、出处、隐私说明。',
     h1: '关于这本图鉴',
-    lede: '十张图版，两种语言，一只很有耐心的鲸鱼。',
+    lede: '十九张图版，两种语言，一只很有耐心的鲸鱼。',
     whatH: '这是什么',
     whatP1:
-      '这是一个非官方粉丝项目：十个 HTTP 状态码的插画图鉴。定义依据 RFC 9110、RFC 6585 和 RFC 2324，每一条都给出原文链接。',
+      '这是一个非官方粉丝项目：十九个 HTTP 状态码的插画图鉴。定义依据 RFC 9110、RFC 6585、RFC 2324 和 RFC 7725，每一条都给出原文链接。',
     whatP2:
-      '这本图鉴只收录这里画出的十个状态码。它是给读者和开发者的参考，不替代 RFC 或你所使用框架的文档。',
+      '这本图鉴只收录这里画出的十九个状态码。它是给读者和开发者的参考，不替代 RFC 或你所使用框架的文档。',
     creditsH: '署名与致谢',
     creditsThanks:
       '谢谢 Fatal1tyV。这些图版让每个状态码都有了表情；没有它们，这里只是一张数字表。',
@@ -173,12 +167,12 @@ const zh: typeof en = {
   },
   footer: {
     aboutH: '关于',
-    aboutP: '十个 HTTP 状态码的非官方插画图鉴。定义对照 RFC 核对。',
+    aboutP: '十九个 HTTP 状态码的非官方插画图鉴。定义对照 RFC 核对。',
     sourcesH: '出处',
     machineH: '机器可读',
     unofficial: '非官方粉丝项目，与 DeepSeek 无关。',
     credit: '插画署名见关于页。',
-    edition: '版本 1.0',
+    edition: '版本 1.1',
     llms: 'llms.txt',
     json: 'status.json',
     sitemap: '站点地图',
@@ -190,7 +184,7 @@ export const notFoundCopy = {
   title: 'Page not found | DeepSeek-chan HTTP Field Guide',
   description: 'The page you followed does not exist. The HTTP status guide does.',
   h1: 'This page is not in the guide.',
-  p: 'The address you followed does not exist. The 404 plate does, and so do the other nine.',
+  p: 'The address you followed does not exist. The 404 plate does, and so do the other eighteen.',
   enLink: 'Go to the English index',
 };
 

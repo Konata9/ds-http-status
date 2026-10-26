@@ -9,11 +9,11 @@ export const site = {
     zh: 'DeepSeek 娘 HTTP 状态图鉴',
   },
   description: {
-    en: 'Ten HTTP status codes, illustrated by DeepSeek-chan and explained without jargon. RFC references, common causes, and practical fixes.',
-    zh: '用 DeepSeek 娘插画读懂十个 HTTP 状态码。包含 RFC 出处、常见场景和实用处理建议。',
+    en: 'Nineteen HTTP status codes across all five classes, illustrated by DeepSeek-chan and explained without jargon. RFC references, common causes, and practical fixes.',
+    zh: '用 DeepSeek 娘插画读懂十九个 HTTP 状态码，覆盖五个类别。包含 RFC 出处、常见场景和实用处理建议。',
   },
-  edition: '1.0',
-  updated: '2026-10-25',
+  edition: '1.1',
+  updated: '2026-10-26',
   author: {
     name: 'Konata9',
     url: 'https://github.com/Konata9',

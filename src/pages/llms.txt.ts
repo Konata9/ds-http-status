@@ -7,15 +7,15 @@ export const GET: APIRoute = () => {
   const lines: string[] = [
     '# DeepSeek-chan HTTP Field Guide',
     '',
-    '> An unofficial bilingual illustrated reference to ten HTTP status codes: 200, 401, 403, 404, 408, 414, 418, 429, 500, and 503. Each entry gives the meaning, common causes, fixes, the relevant RFC section, and a link to the illustration.',
+    '> An unofficial bilingual illustrated reference to nineteen HTTP status codes across all five classes, from 100 to 503. Each entry gives the meaning, common causes, fixes, the relevant RFC section, and a link to the illustration.',
     '',
     'Languages: English at /, Simplified Chinese at /zh/',
-    'Edition: 1.0, updated 2026-10-25',
+    'Edition: 1.1, updated 2026-10-26',
     'Illustrations: Fatal1tyV (Xiaohongshu) https://www.xiaohongshu.com/user/profile/691f24b6000000003702fdbd',
-    'Definitions: RFC 9110, RFC 6585, RFC 2324, and MDN Web Docs.',
+    'Definitions: RFC 9110, RFC 6585, RFC 2324, RFC 7725, and MDN Web Docs.',
     '',
     '## English pages',
-    `- [Index](${canonicalUrl(homePath('en'))}): Ten illustrated status codes.`,
+    `- [Index](${canonicalUrl(homePath('en'))}): Nineteen illustrated status codes.`,
     ...statuses.map(
       (status) =>
         `- [${status.code} ${status.reason}](${statusUrls(status.code).page.en.url}): ${status.summary.en}`,
@@ -23,7 +23,7 @@ export const GET: APIRoute = () => {
     `- [About](${canonicalUrl('/about/')}): credits, sources, and privacy.`,
     '',
     '## Chinese pages',
-    `- [图鉴](${canonicalUrl(homePath('zh'))}): 十个状态码的插画图鉴。`,
+    `- [图鉴](${canonicalUrl(homePath('zh'))}): 十九个状态码的插画图鉴。`,
     ...statuses.map(
       (status) =>
         `- [${status.code} ${status.reason}](${statusUrls(status.code).page.zh.url}): ${status.summary.zh}`,

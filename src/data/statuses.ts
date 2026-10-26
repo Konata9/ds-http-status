@@ -1,18 +1,27 @@
 import type { ImageMetadata } from 'astro';
 import { referenceLinks } from './references';
+import img100 from '../assets/status/100.png';
 import img200 from '../assets/status/200.png';
+import img302 from '../assets/status/302.png';
+import img304 from '../assets/status/304.png';
+import img400 from '../assets/status/400.png';
 import img401 from '../assets/status/401.png';
+import img402 from '../assets/status/402.png';
 import img403 from '../assets/status/403.png';
 import img404 from '../assets/status/404.png';
 import img408 from '../assets/status/408.png';
+import img409 from '../assets/status/409.png';
+import img413 from '../assets/status/413.png';
 import img414 from '../assets/status/414.png';
 import img418 from '../assets/status/418.png';
 import img429 from '../assets/status/429.png';
+import img451 from '../assets/status/451.png';
 import img500 from '../assets/status/500.png';
+import img502 from '../assets/status/502.png';
 import img503 from '../assets/status/503.png';
 
 export type Locale = 'en' | 'zh';
-export type StatusClass = 2 | 4 | 5;
+export type StatusClass = 1 | 2 | 3 | 4 | 5;
 
 export interface Bilingual {
   en: string;
@@ -57,8 +66,94 @@ const mdn = (code: number) => `${referenceLinks.mdnStatus.url}/${code}`;
 
 export const statuses: Status[] = [
   {
-    code: 200,
+    code: 100,
     plate: '01',
+    reason: 'Continue',
+    reasonZh: '继续',
+    class: 1,
+    image: img100,
+    imageAlt: {
+      en: 'DeepSeek-chan reaches eagerly across a table for a steaming bowl of rice being handed to her, with side dishes spread in front of her.',
+      zh: 'DeepSeek 娘隔着一张桌子，伸手去接一碗递来的热米饭，面前摆着几碟小菜。',
+    },
+    card: {
+      en: 'Keep going, the server is listening.',
+      zh: '继续发，服务器在听。',
+    },
+    summary: {
+      en: 'Interim response: the server has the request so far and wants the rest.',
+      zh: '临时响应：服务器已收到请求开头，愿意接收剩余内容。',
+    },
+    lead: {
+      en: '100 Continue is an informational response, not a final one. It means the server has received the initial part of the request and has not rejected it, and is ready for the client to send the rest — usually the body.',
+      zh: '100 Continue 是信息响应，不是最终结果。它表示服务器已经收到请求的开头部分，没有拒绝，并且愿意让客户端把剩下的内容（通常是请求正文）发过来。',
+    },
+    meaning: {
+      en: [
+        'A 100 response is an interim response. It cannot contain a body, and it is always followed by a final response. A client that did not ask for it may simply discard it.',
+        'It is most often tied to the Expect header: a client sends Expect: 100-continue before a large body, and the server answers 100 when it is willing to accept that body.',
+      ],
+      zh: [
+        '100 是临时响应，不能带正文，后面一定还会有一个最终响应。客户端如果没要求过它，直接忽略即可。',
+        '它通常和 Expect 头一起用：客户端在发送大正文前带上 Expect: 100-continue，服务器愿意接收时回一个 100。',
+      ],
+    },
+    when: {
+      en: [
+        'A client sends Expect: 100-continue before a large upload.',
+        'A server wants to reject an oversized body before it arrives.',
+        'A proxy holds a request while it checks the origin.',
+      ],
+      zh: [
+        '客户端在上传大文件前发送 Expect: 100-continue。',
+        '服务器想在正文到达前就拒绝一个过大的请求。',
+        '代理在等待源站确认时，先垫一个 100。',
+      ],
+    },
+    server: {
+      en: [
+        'Do not send 100 to HTTP/1.0 clients; they do not understand 1xx responses.',
+        'Use it to reject an unacceptable body early, instead of reading the whole payload first.',
+        'Remember 100 is interim; always follow it with a real final status.',
+      ],
+      zh: [
+        '不要给 HTTP/1.0 客户端发 100，它们不理解 1xx 响应。',
+        '用它提前拒绝不能接受的正文，而不是先把整个载荷读完。',
+        '记住 100 是临时的，后面一定要跟一个真正的最终状态码。',
+      ],
+    },
+    visitor: {
+      en: [
+        'Nothing to fix. This is a handshake between client and server.',
+        'If the request then fails with 413 or 400, the problem is the payload, not the 100.',
+      ],
+      zh: [
+        '不需要处理，这只是客户端和服务器之间的一次握手。',
+        '如果之后又返回 413 或 400，问题在载荷，不在这个 100。',
+      ],
+    },
+    related: [
+      { code: 200, note: { en: 'The final success that usually follows.', zh: '通常跟在后面的最终成功。' } },
+      { code: 413, note: { en: 'The body the server refused to accept.', zh: '服务器拒绝接收的正文。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.2.1',
+      rfcUrl: rfc9110('15.2.1'),
+      cacheable: false,
+      headers: [],
+      note: {
+        en: 'Interim 1xx response; it must not be sent to an HTTP/1.0 client.',
+        zh: '1xx 临时响应；不能发给 HTTP/1.0 客户端。',
+      },
+    },
+    sources: [
+      { label: 'RFC 9110 §15.2.1', url: rfc9110('15.2.1') },
+      { label: 'MDN: 100 Continue', url: mdn(100) },
+    ],
+  },
+  {
+    code: 200,
+    plate: '02',
     reason: 'OK',
     reasonZh: '成功',
     class: 2,
@@ -139,15 +234,269 @@ export const statuses: Status[] = [
     ],
   },
   {
+    code: 302,
+    plate: '03',
+    reason: 'Found',
+    reasonZh: '临时重定向',
+    class: 3,
+    image: img302,
+    imageAlt: {
+      en: 'DeepSeek-chan sits at a new table eating rice, while an arrow points from a table with a no-entry sign toward her.',
+      zh: 'DeepSeek 娘换到另一张桌子吃饭，一个箭头从立着禁止标志的旧桌子指向她。',
+    },
+    card: {
+      en: 'Temporarily over there.',
+      zh: '暂时在那边。',
+    },
+    summary: {
+      en: 'The resource is temporarily at a different URI.',
+      zh: '资源暂时位于另一个 URI。',
+    },
+    lead: {
+      en: '302 Found means the target resource temporarily lives under a different URI. The client should keep using the original URI for future requests; the redirect may change again.',
+      zh: '302 Found 表示目标资源暂时移到了另一个 URI。客户端以后仍应使用原来的地址，因为这个跳转可能还会变。',
+    },
+    meaning: {
+      en: [
+        'The server should send a Location header with the other URI, and the user agent may follow it automatically. The response body is usually a short note with a link.',
+        'For historical reasons, a user agent may rewrite a POST into a GET when it follows a 302. If the method must be preserved, use 307 instead.',
+      ],
+      zh: [
+        '服务器应该用 Location 头给出另一个 URI，浏览器可以自动跳过去。响应正文通常只是一句带链接的提示。',
+        '出于历史原因，浏览器跟随 302 时可能把 POST 改成 GET。如果必须保留方法，用 307。',
+      ],
+    },
+    when: {
+      en: [
+        'A page moves while a redesign is in progress.',
+        'A login flow sends a user to a temporary landing page.',
+        'A/B testing routes some visitors elsewhere for a while.',
+      ],
+      zh: [
+        '改版期间页面暂时换了位置。',
+        '登录流程把用户先送到一个临时落地页。',
+        'A/B 测试暂时把部分访客导到别处。',
+      ],
+    },
+    server: {
+      en: [
+        'Always send Location; a 302 without it leaves the client with nowhere to go.',
+        'Use 302 for temporary moves and 301 for permanent ones.',
+        'Use 307 (or 308) when the request method must survive the redirect.',
+      ],
+      zh: [
+        '一定要带 Location；没有它的 302 让客户端无处可去。',
+        '临时迁移用 302，永久迁移用 301。',
+        '需要保留请求方法时用 307（或 308）。',
+      ],
+    },
+    visitor: {
+      en: [
+        'Follow the redirect; your browser usually does this for you.',
+        'If it loops back to the same page, the redirect is misconfigured and the site needs to fix it.',
+      ],
+      zh: [
+        '跟着跳转走就行，浏览器通常会替你完成。',
+        '如果又跳回同一页，那是重定向配错了，需要站点来修。',
+      ],
+    },
+    related: [
+      { code: 200, note: { en: 'The eventual answer after following it.', zh: '跟随跳转后最终得到的响应。' } },
+      { code: 404, note: { en: 'The destination no longer exists.', zh: '跳转目标已经不存在。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.4.3',
+      rfcUrl: rfc9110('15.4.3'),
+      cacheable: false,
+      headers: ['Location'],
+      note: {
+        en: 'User agents may change POST to GET on a 302.',
+        zh: '跟随 302 时，用户代理可能把 POST 改成 GET。',
+      },
+    },
+    sources: [
+      { label: 'RFC 9110 §15.4.3', url: rfc9110('15.4.3') },
+      { label: 'MDN: 302 Found', url: mdn(302) },
+    ],
+  },
+  {
+    code: 304,
+    plate: '04',
+    reason: 'Not Modified',
+    reasonZh: '未修改',
+    class: 3,
+    image: img304,
+    imageAlt: {
+      en: 'DeepSeek-chan takes a bowl of rice from a refrigerator labelled CACHE, which is packed with identical rice bowls.',
+      zh: 'DeepSeek 娘从一个贴着 CACHE 标签、装满米饭碗的冰箱里取出一碗。',
+    },
+    card: {
+      en: 'You already have the latest copy.',
+      zh: '你手上的就是最新的。',
+    },
+    summary: {
+      en: 'A conditional request hit; the cached copy is still valid.',
+      zh: '条件请求命中，缓存副本仍然有效。',
+    },
+    lead: {
+      en: '304 Not Modified is the answer to a conditional GET or HEAD. The resource has not changed since the version the client already has, so there is nothing new to send.',
+      zh: '304 Not Modified 是条件 GET 或 HEAD 的答复。资源自客户端已有的版本以来没有变化，所以没什么可发的。',
+    },
+    meaning: {
+      en: [
+        'A 304 has no body. It tells the client to keep using the representation it already stored, as if the server had answered 200 OK.',
+        'The server should send the metadata that a 200 would have carried — such as ETag, Cache-Control, and Vary — so the cache can refresh its entry.',
+      ],
+      zh: [
+        '304 没有正文。它让客户端继续使用已经存好的副本，效果等同于服务器回了 200 OK。',
+        '服务器应带上 200 会有的元数据，比如 ETag、Cache-Control、Vary，好让缓存更新自己的记录。',
+      ],
+    },
+    when: {
+      en: [
+        'A browser revalidates a page with If-None-Match or If-Modified-Since.',
+        'A CDN checks whether a cached asset is still fresh.',
+        'A client polls for updates and gets "no change" back.',
+      ],
+      zh: [
+        '浏览器用 If-None-Match 或 If-Modified-Since 重新校验页面。',
+        'CDN 检查缓存资源是否仍然新鲜。',
+        '客户端轮询更新，得到“没变化”的答复。',
+      ],
+    },
+    server: {
+      en: [
+        'Send validators (ETag or Last-Modified) so clients can revalidate instead of re-downloading.',
+        'On a 304, echo the same ETag and cache headers a 200 would send.',
+        'Do not attach a body to a 304; it will be ignored or treated as an error.',
+      ],
+      zh: [
+        '给响应加校验器（ETag 或 Last-Modified），让客户端能校验而不是重新下载。',
+        '返回 304 时，带上 200 会有的 ETag 和缓存头。',
+        '304 不要带正文，它会被忽略，甚至被当成错误。',
+      ],
+    },
+    visitor: {
+      en: [
+        'Nothing to do; your cached copy is still correct.',
+        'If content looks stale after a 304, the cache itself is stale; a hard refresh usually fixes it.',
+      ],
+      zh: [
+        '不用做任何事，你缓存里的副本仍然是对的。',
+        '如果 304 之后内容还是旧的，那是缓存本身过期了，强制刷新通常能解决。',
+      ],
+    },
+    related: [
+      { code: 200, note: { en: 'What you would otherwise receive.', zh: '本来会收到的完整响应。' } },
+      { code: 404, note: { en: 'The revalidation target may be gone.', zh: '要校验的资源可能已经不存在。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.4.5',
+      rfcUrl: rfc9110('15.4.5'),
+      cacheable: false,
+      headers: ['ETag', 'Last-Modified', 'Cache-Control'],
+      note: {
+        en: 'A 304 is not stored as a response; it updates the representation a cache already holds.',
+        zh: '304 本身不作为响应缓存，而是更新缓存已有的副本。',
+      },
+    },
+    sources: [
+      { label: 'RFC 9110 §15.4.5', url: rfc9110('15.4.5') },
+      { label: 'MDN: 304 Not Modified', url: mdn(304) },
+    ],
+  },
+  {
+    code: 400,
+    plate: '05',
+    reason: 'Bad Request',
+    reasonZh: '错误请求',
+    class: 4,
+    image: img400,
+    imageAlt: {
+      en: 'A waiter with an order pad looks bewildered as DeepSeek-chan speaks a stream of garbled characters, a question mark beside her.',
+      zh: '服务员拿着点餐板一脸茫然，DeepSeek 娘嘴里吐出一串乱码，旁边打着问号。',
+    },
+    card: {
+      en: 'The request made no sense.',
+      zh: '这个请求看不懂。',
+    },
+    summary: {
+      en: 'The server cannot process the request as sent.',
+      zh: '服务器无法按原样处理这个请求。',
+    },
+    lead: {
+      en: '400 Bad Request means the server cannot or will not process the request because of something it sees as a client error — malformed syntax, invalid framing, or deceptive request routing.',
+      zh: '400 Bad Request 表示服务器因为某个它认定为客户端错误的原因，无法或不愿处理这个请求——语法错误、报文框架无效，或者请求路由有欺骗性。',
+    },
+    meaning: {
+      en: [
+        'It is the generic client-side catch-all. Anything the server cannot parse or will not accept, and that has no more specific code, can land here.',
+        'The problem is usually in the request line, headers, or body — not in the server. Retrying the same malformed request will keep failing.',
+      ],
+      zh: [
+        '它是客户端错误的通用兜底。凡是服务器解析不了、又没有更具体状态码的请求，都可能落到这里。',
+        '问题通常出在请求行、请求头或正文，而不是服务器。原样重试这个有毛病的请求还是会失败。',
+      ],
+    },
+    when: {
+      en: [
+        'A request line or header is malformed.',
+        'A body is corrupt, truncated, or the wrong encoding.',
+        'A client sends a request the server deliberately refuses, such as a mismatched Host.',
+      ],
+      zh: [
+        '请求行或请求头格式错误。',
+        '正文损坏、被截断，或者编码不对。',
+        '客户端发出了服务器刻意拒绝的请求，比如 Host 对不上。',
+      ],
+    },
+    server: {
+      en: [
+        'Log the raw request enough to see what was malformed, but do not echo it back to the user.',
+        'Prefer a more specific code when one fits: 404, 413, 415, or 422.',
+        'Return a short message that helps the client fix the request, not a generic error.',
+      ],
+      zh: [
+        '把原始请求记进日志以便定位，但不要原样回显给用户。',
+        '有更具体的状态码就用：404、413、415 或 422。',
+        '返回一句能帮客户端修正请求的提示，而不是笼统的报错。',
+      ],
+    },
+    visitor: {
+      en: [
+        'A 400 is almost never your fault as a visitor; a broken link or buggy client sent a bad request.',
+        'If you typed the URL by hand, check it for typos or illegal characters.',
+      ],
+      zh: [
+        '作为访客，400 几乎不是你造成的；通常是坏链接或客户端 bug 发了坏请求。',
+        '如果是手动输入的地址，检查有没有拼错或非法字符。',
+      ],
+    },
+    related: [
+      { code: 401, note: { en: 'Missing credentials, not a broken request.', zh: '缺凭据，不是请求坏了。' } },
+      { code: 413, note: { en: 'The body is too large, a specific 400.', zh: '正文太大，是更具体的一类 400。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.5.1',
+      rfcUrl: rfc9110('15.5.1'),
+      cacheable: false,
+      headers: [],
+    },
+    sources: [
+      { label: 'RFC 9110 §15.5.1', url: rfc9110('15.5.1') },
+      { label: 'MDN: 400 Bad Request', url: mdn(400) },
+    ],
+  },
+  {
     code: 401,
-    plate: '02',
+    plate: '06',
     reason: 'Unauthorized',
     reasonZh: '未认证',
     class: 4,
     image: img401,
     imageAlt: {
-      en: 'DeepSeek-chan at a security gate, holding up a hand to refuse an ID card offered by a man in a suit.',
-      zh: 'DeepSeek 娘在安检闸机前抬手拒绝一位西装男递来的证件。',
+      en: 'DeepSeek-chan presses an access card to a server-room reader; the lock shows a red cross.',
+      zh: 'DeepSeek 娘把门禁卡贴在服务器机房门锁上，读卡器亮起红色的叉。',
     },
     card: {
       en: 'No valid credentials.',
@@ -221,8 +570,94 @@ export const statuses: Status[] = [
     ],
   },
   {
+    code: 402,
+    plate: '07',
+    reason: 'Payment Required',
+    reasonZh: '需要付款',
+    class: 4,
+    image: img402,
+    imageAlt: {
+      en: 'A hand holds out a bill and a card terminal while DeepSeek-chan clutches an empty rice bowl, sweating.',
+      zh: '一只手递来账单和刷卡机，DeepSeek 娘抱着空碗，满头大汗。',
+    },
+    card: {
+      en: 'Pay first.',
+      zh: '先付钱。',
+    },
+    summary: {
+      en: 'Reserved by HTTP; some APIs use it for payment walls.',
+      zh: 'HTTP 保留的状态码；部分 API 用它表示需要付费。',
+    },
+    lead: {
+      en: '402 Payment Required is reserved for future use by RFC 9110. It has no standardized semantics yet, but some APIs borrow it to signal that the request needs a paid account or a topped-up balance.',
+      zh: '402 Payment Required 在 RFC 9110 里被保留，尚未定义标准语义。但有些 API 借用它来表示需要付费账号或充值才能继续。',
+    },
+    meaning: {
+      en: [
+        'Because the code is reserved, its meaning is not fixed by any specification. Whatever an API means by 402 is its own contract, and it should document it.',
+        'In practice it usually means "not enough credit" or "subscription required" — a kind of refusal that is neither authentication (401) nor permission (403).',
+      ],
+      zh: [
+        '因为它是保留码，语义没有被任何规范固定。某个 API 里的 402 具体指什么，是它自己的契约，应当写进文档。',
+        '实践中它通常表示“余额不足”或“需要订阅”——一种既不是认证（401）也不是权限（403）的拒绝。',
+      ],
+    },
+    when: {
+      en: [
+        'An API tier or quota requires payment.',
+        'A service returns 402 for a trial that has ended.',
+        'A platform withholds content behind a paywall.',
+      ],
+      zh: [
+        '某个 API 等级或配额需要付费。',
+        '服务对已经结束的试用期返回 402。',
+        '平台把内容挡在付费墙之后。',
+      ],
+    },
+    server: {
+      en: [
+        'If you use 402, document exactly what it means in your API contract.',
+        'Prefer 401 for missing credentials and 403 for insufficient permission; do not overload 402.',
+        'Return enough detail for the client to know how to pay or upgrade.',
+      ],
+      zh: [
+        '如果你用 402，把它的确切含义写进 API 契约。',
+        '缺凭据用 401，没权限用 403，别让 402 背这些锅。',
+        '返回足够的信息，让客户端知道怎么付款或升级。',
+      ],
+    },
+    visitor: {
+      en: [
+        'If you hit a real 402, the resource needs payment or a higher tier.',
+        'There is nothing to retry until the account is paid or upgraded.',
+      ],
+      zh: [
+        '如果真碰到 402，说明这个资源需要付费或更高的等级。',
+        '在账户付费或升级之前，重试没有意义。',
+      ],
+    },
+    related: [
+      { code: 401, note: { en: 'Who you are, not whether you paid.', zh: '你是谁，而不是有没有付钱。' } },
+      { code: 403, note: { en: 'Entitled but not allowed.', zh: '有资格，但被拒绝。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.5.3',
+      rfcUrl: rfc9110('15.5.3'),
+      cacheable: false,
+      headers: [],
+      note: {
+        en: 'Reserved for future use; no standardized semantics.',
+        zh: '保留码，尚无标准语义。',
+      },
+    },
+    sources: [
+      { label: 'RFC 9110 §15.5.3', url: rfc9110('15.5.3') },
+      { label: 'MDN: 402 Payment Required', url: mdn(402) },
+    ],
+  },
+  {
     code: 403,
-    plate: '03',
+    plate: '08',
     reason: 'Forbidden',
     reasonZh: '禁止访问',
     class: 4,
@@ -306,7 +741,7 @@ export const statuses: Status[] = [
   },
   {
     code: 404,
-    plate: '04',
+    plate: '09',
     reason: 'Not Found',
     reasonZh: '未找到',
     class: 4,
@@ -394,7 +829,7 @@ export const statuses: Status[] = [
   },
   {
     code: 408,
-    plate: '05',
+    plate: '10',
     reason: 'Request Timeout',
     reasonZh: '请求超时',
     class: 4,
@@ -477,8 +912,176 @@ export const statuses: Status[] = [
     ],
   },
   {
+    code: 409,
+    plate: '11',
+    reason: 'Conflict',
+    reasonZh: '冲突',
+    class: 4,
+    image: img409,
+    imageAlt: {
+      en: 'Two DeepSeek-chans pull the same bowl of rice in opposite directions, both glaring.',
+      zh: '两个 DeepSeek 娘各抓住同一碗米饭的两边，互相对峙。',
+    },
+    card: {
+      en: 'Your change collides with another.',
+      zh: '你的改动和别人撞了。',
+    },
+    summary: {
+      en: 'The request conflicts with the resource\u2019s current state.',
+      zh: '请求与资源的当前状态冲突。',
+    },
+    lead: {
+      en: '409 Conflict means the request could not be completed because it conflicts with the current state of the target resource. Unlike most errors, it is one the client might be able to resolve and resubmit.',
+      zh: '409 Conflict 表示请求因为与目标资源的当前状态冲突而无法完成。和大多数错误不同，这个冲突客户端也许能自己解决后重新提交。',
+    },
+    meaning: {
+      en: [
+        'The server should describe the conflict in the body, so the user can recognize the source and decide how to resolve it.',
+        'Conflicts most often come from PUT requests: two writers change the same resource, and the later one does not match what the server now has.',
+      ],
+      zh: [
+        '服务器应在正文里说明冲突，让用户能看出原因，再决定怎么解决。',
+        '冲突最常见于 PUT：两个人改了同一个资源，后提交的那份和服务器现在的状态对不上。',
+      ],
+    },
+    when: {
+      en: [
+        'An update uses a stale version or ETag.',
+        'Two requests try to create the same unique resource.',
+        'A state transition is not allowed from the resource\u2019s current state.',
+      ],
+      zh: [
+        '更新时用了过期的版本号或 ETag。',
+        '两个请求试图创建同一个唯一资源。',
+        '资源当前状态下不允许这个状态流转。',
+      ],
+    },
+    server: {
+      en: [
+        'Send a body that names the conflict and how to resolve it.',
+        'Use version numbers or ETags so clients can detect staleness before writing.',
+        'Use 412 when the conflict is a failed precondition, not a state clash.',
+      ],
+      zh: [
+        '返回正文，说明冲突在哪、怎么解决。',
+        '用版本号或 ETag 让客户端在写入前就能发现过期。',
+        '如果是前置条件失败而非状态冲突，用 412。',
+      ],
+    },
+    visitor: {
+      en: [
+        'If a form or API returns 409, refresh and re-check the current state before retrying.',
+        'Do not blindly resubmit; your change is racing someone else\u2019s.',
+      ],
+      zh: [
+        '表单或接口返回 409 时，先刷新确认当前状态再重试。',
+        '不要盲目重提，你的改动正在和别人的改动赛跑。',
+      ],
+    },
+    related: [
+      { code: 400, note: { en: 'A generic rejection, not a state clash.', zh: '笼统的拒绝，不是状态冲突。' } },
+      { code: 404, note: { en: 'The resource to update may be gone.', zh: '要更新的资源可能已经不在了。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.5.10',
+      rfcUrl: rfc9110('15.5.10'),
+      cacheable: false,
+      headers: [],
+    },
+    sources: [
+      { label: 'RFC 9110 §15.5.10', url: rfc9110('15.5.10') },
+      { label: 'MDN: 409 Conflict', url: mdn(409) },
+    ],
+  },
+  {
+    code: 413,
+    plate: '12',
+    reason: 'Content Too Large',
+    reasonZh: '内容过大',
+    class: 4,
+    image: img413,
+    imageAlt: {
+      en: 'DeepSeek-chan is wedged inside an overflowing takeout box packed with rice, looking thoroughly annoyed.',
+      zh: 'DeepSeek 娘被塞进一个装满米饭、已经撑开的打包盒里，一脸不悦。',
+    },
+    card: {
+      en: 'The payload is too big.',
+      zh: '内容太大了。',
+    },
+    summary: {
+      en: 'The request body exceeds the server\u2019s limit.',
+      zh: '请求正文超过了服务器愿意处理的限制。',
+    },
+    lead: {
+      en: '413 Content Too Large means the server is refusing the request because the content is larger than it is willing or able to process. The server may terminate the request, or close the connection if the protocol does not allow it.',
+      zh: '413 Content Too Large 表示请求内容太大，服务器不愿或无法处理，于是拒绝。服务器可能直接终止请求，协议不允许时则关闭连接。',
+    },
+    meaning: {
+      en: [
+        'The limit can be set by the server, a proxy, or a WAF, and it is not part of the core HTTP specification.',
+        'If the limit is temporary — for example, a burst of oversized uploads — the server should send Retry-After to say when the client may try again.',
+      ],
+      zh: [
+        '这个上限可以由服务器、代理或 WAF 设定，并不属于 HTTP 核心规范的一部分。',
+        '如果限制是临时的——比如一阵过大的上传——服务器应该用 Retry-After 告诉客户端何时可以再试。',
+      ],
+    },
+    when: {
+      en: [
+        'An upload exceeds a server or proxy size limit.',
+        'A request body is larger than the server is configured to buffer.',
+        'A WAF blocks a payload above a hard cap.',
+      ],
+      zh: [
+        '上传超过了服务器或代理的大小限制。',
+        '请求正文比服务器配置的缓冲上限还大。',
+        'WAF 拦截了超过硬性上限的载荷。',
+      ],
+    },
+    server: {
+      en: [
+        'Set a deliberate limit and document it; do not leave the default unstated.',
+        'Use 413 rather than 500 when the cause is the request size.',
+        'Send Retry-After if the limit is temporary or being raised soon.',
+      ],
+      zh: [
+        '设定一个明确的限制并写进文档，别让默认值成为谜。',
+        '原因是请求太大时用 413，不要用 500。',
+        '如果限制是临时的或即将放宽，用 Retry-After。',
+      ],
+    },
+    visitor: {
+      en: [
+        'Reduce the upload, or split it into smaller parts.',
+        'Check the API documentation for the advertised size limit.',
+      ],
+      zh: [
+        '减小上传体积，或拆成更小的部分。',
+        '查看接口文档里公布的大小限制。',
+      ],
+    },
+    related: [
+      { code: 400, note: { en: 'A malformed request, not a large one.', zh: '是请求坏了，不是太大了。' } },
+      { code: 414, note: { en: 'The URI is too long instead.', zh: '这次是 URI 太长了。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.5.14',
+      rfcUrl: rfc9110('15.5.14'),
+      cacheable: false,
+      headers: ['Retry-After'],
+      note: {
+        en: 'RFC 9110 renamed this from \u201cPayload Too Large\u201d.',
+        zh: 'RFC 9110 把它从 \u201cPayload Too Large\u201d 改名为 \u201cContent Too Large\u201d。',
+      },
+    },
+    sources: [
+      { label: 'RFC 9110 §15.5.14', url: rfc9110('15.5.14') },
+      { label: 'MDN: 413 Content Too Large', url: mdn(413) },
+    ],
+  },
+  {
     code: 414,
-    plate: '06',
+    plate: '13',
     reason: 'URI Too Long',
     reasonZh: 'URI 过长',
     class: 4,
@@ -562,7 +1165,7 @@ export const statuses: Status[] = [
   },
   {
     code: 418,
-    plate: '07',
+    plate: '14',
     reason: 'I’m a teapot',
     reasonZh: '我是茶壶',
     class: 4,
@@ -649,7 +1252,7 @@ export const statuses: Status[] = [
   },
   {
     code: 429,
-    plate: '08',
+    plate: '15',
     reason: 'Too Many Requests',
     reasonZh: '请求过多',
     class: 4,
@@ -732,8 +1335,94 @@ export const statuses: Status[] = [
     ],
   },
   {
+    code: 451,
+    plate: '16',
+    reason: 'Unavailable For Legal Reasons',
+    reasonZh: '因法律原因不可用',
+    class: 4,
+    image: img451,
+    imageAlt: {
+      en: 'DeepSeek-chan slumps at a table beside a sign that forbids selling alcohol to minors, sweating.',
+      zh: 'DeepSeek 娘趴在桌上，旁边立着“禁止向未成年售酒”的牌子，满头大汗。',
+    },
+    card: {
+      en: 'Legally off the menu.',
+      zh: '法律不让上。',
+    },
+    summary: {
+      en: 'The resource is unavailable for legal reasons.',
+      zh: '资源因法律原因不可用。',
+    },
+    lead: {
+      en: '451 Unavailable For Legal Reasons means the server is denying access because a legal demand — a court order, a censorship ruling, or similar — forbids it from serving the resource.',
+      zh: '451 Unavailable For Legal Reasons 表示服务器因为法律要求——法院命令、审查裁定之类——无法提供这个资源。',
+    },
+    meaning: {
+      en: [
+        'The server should include a Link header with rel="blocked-by" pointing to the demand or authority that caused the block.',
+        'Unlike 403, which is the server\u2019s own choice, 451 signals an external legal obligation. The code is named after the novel Fahrenheit 451.',
+      ],
+      zh: [
+        '服务器应当带上 rel="blocked-by" 的 Link 头，指向导致封禁的要求或机构。',
+        '和服务器自行决定的 403 不同，451 表示这是外部法律义务。这个号码得名于小说《华氏 451》。',
+      ],
+    },
+    when: {
+      en: [
+        'A court or regulator orders content removed.',
+        'A region blocks a resource by law.',
+        'A platform geo-blocks content to comply with local rules.',
+      ],
+      zh: [
+        '法院或监管机构要求下架内容。',
+        '某地区依法封锁一个资源。',
+        '平台为遵守当地法规做地区封锁。',
+      ],
+    },
+    server: {
+      en: [
+        'Add the Link rel="blocked-by" header when you can identify the demand.',
+        'Explain what is blocked and why, without revealing more than the law requires.',
+        'Use 403 for your own policy decisions; reserve 451 for actual legal obligations.',
+      ],
+      zh: [
+        '能说明是哪项要求时，加上 Link rel="blocked-by" 头。',
+        '说明被封锁的内容和原因，但别泄露法律要求之外的细节。',
+        '平台自己的政策用 403；真正的法律义务才用 451。',
+      ],
+    },
+    visitor: {
+      en: [
+        'There is no client-side fix; the block is external and deliberate.',
+        'If you believe the block is wrong, the header may point to the authority to contact.',
+      ],
+      zh: [
+        '客户端这边没有办法，这是外部有意为之的封锁。',
+        '如果你觉得封锁有误，头信息可能会指向可以申诉的机构。',
+      ],
+    },
+    related: [
+      { code: 403, note: { en: 'The server\u2019s own refusal, not a legal order.', zh: '服务器自己拒绝，不是法律命令。' } },
+      { code: 404, note: { en: 'The server may hide a blocked resource.', zh: '服务器可能用 404 隐藏被封锁的资源。' } },
+    ],
+    tech: {
+      rfc: 'RFC 7725 §3',
+      rfcUrl: 'https://www.rfc-editor.org/rfc/rfc7725.html#section-3',
+      cacheable: true,
+      headers: ['Link'],
+      note: {
+        en: 'Use Link rel="blocked-by" to cite the demand; 451 is cacheable by default.',
+        zh: '用 Link rel="blocked-by" 引用该要求；451 默认可缓存。',
+      },
+    },
+    sources: [
+      { label: 'RFC 7725 §3', url: 'https://www.rfc-editor.org/rfc/rfc7725.html#section-3' },
+      { label: 'MDN: 451 Unavailable For Legal Reasons', url: mdn(451) },
+    ],
+  },
+  {
     code: 500,
-    plate: '09',
+    plate: '17',
     reason: 'Internal Server Error',
     reasonZh: '服务器内部错误',
     class: 5,
@@ -816,8 +1505,90 @@ export const statuses: Status[] = [
     ],
   },
   {
+    code: 502,
+    plate: '18',
+    reason: 'Bad Gateway',
+    reasonZh: '网关错误',
+    class: 5,
+    image: img502,
+    imageAlt: {
+      en: 'DeepSeek-chan angrily points at a smoking network switch with broken ports and a tangle of cables.',
+      zh: 'DeepSeek 娘生气地指着一台冒烟、端口损坏、线缆凌乱的网络交换机。',
+    },
+    card: {
+      en: 'The gateway got garbage back.',
+      zh: '网关收到了一团乱码。',
+    },
+    summary: {
+      en: 'A gateway received an invalid response from upstream.',
+      zh: '网关从上游收到了无效响应。',
+    },
+    lead: {
+      en: '502 Bad Gateway means the server, acting as a gateway or proxy, received an invalid response from the upstream server it contacted to fulfil the request.',
+      zh: '502 Bad Gateway 表示服务器作为网关或代理，从它联系的上游服务器那里收到了一个无效的响应。',
+    },
+    meaning: {
+      en: [
+        'The gateway itself is fine; the thing behind it sent back something unusable — a malformed header, a dropped connection, or a crash.',
+        'It is distinct from 504, where the upstream did not answer in time. 502 means it answered, but badly.',
+      ],
+      zh: [
+        '网关本身没问题，是它背后的上游返回了没法用的东西——头部损坏、连接中断，或者直接崩了。',
+        '它和 504 不同：504 是上游没在时限内回应，502 是上游回了，但回得不对。',
+      ],
+    },
+    when: {
+      en: [
+        'An upstream server or load balancer crashes mid-response.',
+        'A proxy receives a response it cannot parse.',
+        'A service restarts while a gateway has a request in flight.',
+      ],
+      zh: [
+        '上游服务器或负载均衡在响应中途崩溃。',
+        '代理收到了自己无法解析的响应。',
+        '网关还在处理请求时，后端服务重启了。',
+      ],
+    },
+    server: {
+      en: [
+        'Check the upstream logs first; the gateway is usually the symptom, not the cause.',
+        'Return a safe error page; do not leak upstream details to the client.',
+        'Use 504 for timeouts and 503 for maintenance, and keep 502 for invalid responses.',
+      ],
+      zh: [
+        '先看上游日志，网关多半只是症状，不是病根。',
+        '返回安全的错误页，别把上游的细节泄露给客户端。',
+        '超时用 504，维护用 503，502 只留给无效响应。',
+      ],
+    },
+    visitor: {
+      en: [
+        'Retry once; a transient upstream crash may already be fixed.',
+        'If it persists, the site\u2019s backend is broken and only the operator can fix it.',
+      ],
+      zh: [
+        '重试一次，上游的临时崩溃可能已经恢复。',
+        '如果一直这样，是站点后端坏了，只有运维能修。',
+      ],
+    },
+    related: [
+      { code: 500, note: { en: 'The origin itself failed.', zh: '是源站自己出了问题。' } },
+      { code: 503, note: { en: 'The upstream is down, not answering badly.', zh: '上游是挂了，而不是答错了。' } },
+    ],
+    tech: {
+      rfc: 'RFC 9110 §15.6.3',
+      rfcUrl: rfc9110('15.6.3'),
+      cacheable: false,
+      headers: [],
+    },
+    sources: [
+      { label: 'RFC 9110 §15.6.3', url: rfc9110('15.6.3') },
+      { label: 'MDN: 502 Bad Gateway', url: mdn(502) },
+    ],
+  },
+  {
     code: 503,
-    plate: '10',
+    plate: '19',
     reason: 'Service Unavailable',
     reasonZh: '服务不可用',
     class: 5,
@@ -907,12 +1678,28 @@ export const classMeta: Record<
   StatusClass,
   { en: string; zh: string; shortMeaning: Bilingual }
 > = {
+  1: {
+    en: 'Informational',
+    zh: '信息响应',
+    shortMeaning: {
+      en: 'Received; still working.',
+      zh: '已收到，还在处理。',
+    },
+  },
   2: {
     en: 'Success',
     zh: '成功',
     shortMeaning: {
       en: 'It worked.',
       zh: '成功了。',
+    },
+  },
+  3: {
+    en: 'Redirection',
+    zh: '重定向',
+    shortMeaning: {
+      en: 'Look at another URI.',
+      zh: '资源在另一个地址。',
     },
   },
   4: {
@@ -939,7 +1726,7 @@ export function groupStatusesByClass(): Record<StatusClass, Status[]> {
       groups[status.class].push(status);
       return groups;
     },
-    { 2: [], 4: [], 5: [] } as Record<StatusClass, Status[]>,
+    { 1: [], 2: [], 3: [], 4: [], 5: [] } as Record<StatusClass, Status[]>,
   );
 }
 

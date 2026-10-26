@@ -1,11 +1,11 @@
-/* Hallmark · shape: Catalogue · genre: editorial · theme: Specimen (deal 2/3, seed bilingual-illustrated-http-status-7e63·386c4aee·2026-10-25·r0) · job: visit · draw: catalog-register
- * hero: two-column opening with a use-code margin · nav: masthead, index/about/GitHub/language · footer: colophon · imagery: ten supplied plates · signature: the ten plates
- * axes: light/soft-humanist-sans/cool · posture: restrained · contrast: pass · fold: pass · v2.0.0 */
-/* Hallmark · pre-emit critique: P_ H_ E_ S_ R_ V_ · weakest: imagery, the ten plates are the page; the layout gets out of their way */
+/* Hallmark · shape: Catalogue · genre: editorial · theme: Specimen (deal 2/3, seed bilingual-illustrated-http-status-7e63·386c4aee·2026-10-26·r1) · job: visit · draw: catalog-register
+ * hero: two-column opening with a use-code margin · nav: masthead, index/about/GitHub/language · footer: colophon · imagery: nineteen supplied plates · signature: the nineteen plates
+ * axes: light/soft-humanist-sans/cool · posture: restrained · contrast: pass · fold: pass · v2.1.0 */
+/* Hallmark · pre-emit critique: P_ H_ E_ S_ R_ V_ · weakest: imagery, the nineteen plates are the page; the layout gets out of their way */
 /* waive: body and display use the macOS/Windows system UI stack (Avenir Next / Segoe UI) for a rounder, webfont-free surface; mono remains the outlier. */
 /* waive: accent sampled from the illustrations (#3A56A0) instead of the theme's oklch(45% 0.18 262). */
 /* Hallmark · waive 44c · the catalogue is the hero; the use note and first row of plates carry the fold */
-/* Hallmark · dismissed 77 · four sections; the grid is a ten-plate catalogue, not a landing strip */
+/* Hallmark · dismissed 77 · four sections; the grid is a nineteen-plate catalogue, not a landing strip */
 
 :root {
   color-scheme: light;

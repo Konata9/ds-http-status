@@ -2,12 +2,12 @@
 
 ## The idea
 
-A printed field guide for ten HTTP status codes. The illustrations are the plates; the page is the paper, rules, captions and a small developer margin. The design is deliberately more archival than a typical fan site: warm stock, a high-contrast serif, one ink-blue signal, square rules, no depth.
+A printed field guide for nineteen HTTP status codes. The illustrations are the plates; the page is the paper, rules, captions and a small developer margin. The design is deliberately more archival than a typical fan site: warm stock, a high-contrast serif, one ink-blue signal, square rules, no depth.
 
 - **Genre:** editorial
-- **Shape:** Catalogue. Opening, ten plates, three families, colophon.
+- **Shape:** Catalogue. Opening, nineteen plates, five families, colophon.
 - **Hallmark theme:** Specimen (deal 2/3), adapted with Kami's parchment and serif body.
-- **Signature:** the ten plates. The hero's use note is the functional margin, not a second headline.
+- **Signature:** the nineteen plates. The hero's use note is the functional margin, not a second headline.
 - **One idea per screen:** the opening states the guide and how to use it; the grid is the inventory; the family blocks are the taxonomy.
 
 ## Tokens
@@ -46,7 +46,7 @@ Rules: `1px` hairlines, `2px` section rules, no shadows, no card borders, no rad
 
 - **Plate:** square illustration, `multiply` blend, `filter: brightness(1.04)` so the supplied white background disappears into the paper. Caption below a hairline: code, reason, Chinese name on Chinese pages only, one short line.
 - **Use the status image (hero):** a paper-2 utility panel with the full `https://ds-http-status.konata9.cc/{code}.png` pattern and a live `/200.png` example. No page row. Mono for the URLs; no border, radius or shadow.
-- **Family blocks:** three columns, oversized `2xx` / `4xx` / `5xx`, one-line responsibility, members as mono links.
+- **Family blocks:** five columns, oversized `1xx` / `2xx` / `3xx` / `4xx` / `5xx`, one-line responsibility, members as mono links.
 - **Use the status image (detail):** the direct PNG URL above the technical notes.
 - **Footer:** colophon with sources, machine-readable files and the illustration credit link.
 
@@ -74,11 +74,11 @@ English pages render English UI only. Chinese names are shown on Chinese pages; 
 ## Hallmark notes and scope
 
 - **44c waived:** the catalogue is the hero. The hero's use note and the first row of plates carry the fold; the opening stays compact so the art appears above the fold. Filling 60% of the viewport with the opening would push the plates down and weaken the page's job.
-- **77 on the home:** dismissed. The page has four sections, but the grid is a ten-plate catalogue, not a landing strip. The family blocks are the taxonomy, not filler.
+- **77 on the home:** dismissed. The page has four sections, but the grid is a nineteen-plate catalogue, not a landing strip. The family blocks are the taxonomy, not filler.
 - **Detail and About:** these are long-form reference pages, not landing screens. The landing-page 80-word fold budget and section-mass reflex do not model them. This is a **scope mismatch**, not a waiver; 58 is Floor and is not waivable. The home page is the landing page and passes sloplint with 0 FAIL.
 - **Body face waiver:** the macOS/Windows system UI stack replaces Specimen's Geist so the site stays webfont-free and reads rounder. System mono remains the outlier.
 - **Accent waiver:** the ink blue is sampled from the illustrations (`#3A56A0`) rather than the theme's stock accent.
 
 ## Credits
 
-Ten illustrations by **Fatal1tyV** (Xiaohongshu), with thanks. The full credit and thank-you live on `/about/` and `/zh/about/`.
+Nineteen illustrations by **Fatal1tyV** (Xiaohongshu), with thanks. The full credit and thank-you live on `/about/` and `/zh/about/`.

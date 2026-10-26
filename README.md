@@ -1,6 +1,6 @@
 # DeepSeek-chan HTTP Field Guide
 
-An unofficial bilingual illustrated reference to ten HTTP status codes: 200, 401, 403, 404, 408, 414, 418, 429, 500, and 503.
+An unofficial bilingual illustrated reference to nineteen HTTP status codes across all five classes: 100, 200, 302, 304, 400, 401, 402, 403, 404, 408, 409, 413, 414, 418, 429, 451, 500, 502, and 503.
 
 - English: `/`
 - Chinese: `/zh/`
@@ -64,15 +64,16 @@ The home page, detail routes, sitemap, image sitemap, `llms.txt`, `llms-full.txt
 
 The cleaned PNGs in `src/assets/status/` are the versions used by the site. The watermarked originals live in `originals/` and are gitignored.
 
-`scripts/remove_watermarks.py` derives a mask from the 414 plate and inpaints the watermark on all ten images. It is a one-time asset script, not part of the build.
+`scripts/remove_watermarks.py` derives a mask from the 414 plate and inpaints the watermark on the illustrations. It is a one-time asset script, not part of the build. Pass no arguments to process all nineteen images, or a list of codes to process only those:
 
 ```bash
 # One-time environment
 uv venv /tmp/wm-venv --python 3.12
 uv pip install --python /tmp/wm-venv/bin/python opencv-python-headless numpy
 
-# Run from the repository root
+# Run from the repository root — all images, or a selected list
 /tmp/wm-venv/bin/python scripts/remove_watermarks.py
+/tmp/wm-venv/bin/python scripts/remove_watermarks.py 100 401 451
 ```
 
 Preview crops are written to `tmp/watermark-check/`. Check the corner crops and the 560px contact sheet before replacing the cleaned assets. The 429 plate has a very small area of paper texture under the watermark; it is invisible at display size.
@@ -83,7 +84,7 @@ The illustrations belong to Fatal1tyV. Do not reuse them without the illustrator
 
 | File | Purpose |
 | --- | --- |
-| `sitemap-index.xml` / `sitemap-0.xml` | All 24 HTML pages, hreflang links, image entries |
+| `sitemap-index.xml` / `sitemap-0.xml` | All 42 HTML pages, hreflang links, image entries |
 | `robots.txt` | Allows all crawlers, points to the sitemap |
 | `llms.txt` | Compact bilingual index for AI crawlers |
 | `llms-full.txt` | Full definitions and fixes in both languages |
@@ -104,7 +105,7 @@ Every HTML page includes a canonical URL, `en` / `zh-CN` / `x-default` alternate
 - `npm run check`: 0 errors, 0 warnings.
 - `npm test`: data integrity and shared URL tests pass.
 - `npm run qa:visual`: writes 1440px and 390px screenshots for the English and Chinese home and detail pages to `tmp/shots/`.
-- Hallmark `sloplint` on the English and Chinese home pages: 0 FAIL, 1 REFLEX (44c, waived: the catalogue is the hero), 1 WARN (77, dismissed: the grid is a ten-plate catalogue, not a landing strip).
+- Hallmark `sloplint` on the English and Chinese home pages: 0 FAIL, 1 REFLEX (44c, waived: the catalogue is the hero), 1 WARN (77, dismissed: the grid is a nineteen-plate catalogue, not a landing strip).
 - Lighthouse on the home page: 99 performance, 100 accessibility, 100 best practices, 100 SEO. LCP 2.0s, CLS 0.
 - Lighthouse on `/status/404/`: 100 across all four categories. LCP 1.5–1.7s, CLS 0.
 - Responsive checks at 320, 390, 768, 1280, 1440 and 1920 pixels, in both languages.

@@ -10,7 +10,8 @@ interface Props {
 
 const { locale, status } = Astro.props;
 const href = statusUrls(status.code).page[locale].href;
-const eager = status.code <= 404;
+// Eager-load only the first row of plates; the rest load as they scroll in.
+const eager = status.code <= 304;
 ---
 
 <figure class="plate">

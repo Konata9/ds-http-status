@@ -11,10 +11,12 @@ import { apiEnvelope, serializeStatus } from '../src/lib/statusData';
 import { statusCodePaths, statusStaticPaths } from '../src/lib/statusRoutes';
 import { statusUrls } from '../src/lib/statusUrls';
 
-const expectedCodes = [200, 401, 403, 404, 408, 414, 418, 429, 500, 503];
+const expectedCodes = [
+  100, 200, 302, 304, 400, 401, 402, 403, 404, 408, 409, 413, 414, 418, 429, 451, 500, 502, 503,
+];
 
 describe('status data', () => {
-  it('contains the ten illustrated codes exactly once', () => {
+  it('contains the nineteen illustrated codes exactly once', () => {
     const codes = statuses.map((status) => status.code);
     expect(codes).toEqual(expectedCodes);
     expect(new Set(codes).size).toBe(codes.length);
@@ -28,12 +30,18 @@ describe('status data', () => {
     }
   });
 
+  it('numbers the plates sequentially from 01 in code order', () => {
+    expect(statuses.map((status) => status.plate)).toEqual(
+      expectedCodes.map((_, index) => String(index + 1).padStart(2, '0')),
+    );
+  });
+
   it('throws for a code outside the guide', () => {
     expect(() => getStatus(599)).toThrow('Unknown status code: 599');
   });
 
   it('has a label and short meaning for every class', () => {
-    const classes: StatusClass[] = [2, 4, 5];
+    const classes: StatusClass[] = [1, 2, 3, 4, 5];
     for (const statusClass of classes) {
       expect(classMeta[statusClass].en).toBeTruthy();
       expect(classMeta[statusClass].zh).toBeTruthy();
@@ -94,6 +102,6 @@ describe('JSON envelope', () => {
     expect(envelope.source).toBe(canonicalUrl('/status/200.json'));
     expect(envelope.author.name).toBe('Konata9');
     expect(envelope.illustrator.name).toBe('Fatal1tyV');
-    expect(envelope.edition).toBe('1.0');
+    expect(envelope.edition).toBe('1.1');
   });
 });
